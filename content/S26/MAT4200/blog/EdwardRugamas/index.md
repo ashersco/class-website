@@ -13,17 +13,17 @@ This post will discuss the relationship of Differential Geometry and Design Soft
 
 ## Part 1: For the Mathematically Inclined
 
-As students in a differential geometry course, we are told that a surface is viewed as a differentiable manifold $S$ embedded in $\mathbb{R}^3$. In the context of Computer-Aided Design, this manifold is not a static entity, it is something that is constantly changing, subjected to optimization and approximation. The CAD environment these manifolds lie in is essentially a large-scale computational engine for solving problems involving distance functions and curvature flows.
+As students in a differential geometry course, we are told that a surface is viewed as a differentiable manifold $S$ embedded in $\\mathbb{R}^3$. In the context of Computer-Aided Design, this manifold is not a static entity, it is something that is constantly changing, subjected to optimization and approximation. The CAD environment these manifolds lie in is essentially a large-scale computational engine for solving problems involving distance functions and curvature flows.
 
 ### Curvature as a Variable for Design
 
-In class, we define the First and Second Fundamental Forms, $I$ and $II$ , to describe the intrinsic and extrinsic properties of a surface. In CAD, these forms are used to calculate Principal Curvatures ($\kappa_1, \kappa_2$), Gaussian Curvature ($K = k_1k_2$), and Mean Curvature ($H = (\kappa_1 + \kappa_2)/2$).
+In class, we define the First and Second Fundamental Forms, $I$ and $II$ , to describe the intrinsic and extrinsic properties of a surface. In CAD, these forms are used to calculate Principal Curvatures ($\\kappa_1, \\kappa_2$), Gaussian Curvature ($K = k_1k_2$), and Mean Curvature ($H = (\\kappa_1 + \\kappa_2)/2$).
 
 These variables act as functional constraints. For instance, in the creation of surface blends, the transition zones between two primary surfaces, the software must ensure more than positional ($G^0$) or tangential ($G^1$) continuity. To achieve a high-quality "Class A" surface, the software must satisfy a $G^2$ continuity, meaning the normal curvatures must match across some boundary. This requires solving systems of equations derived from a Weingarten Map, ensuring that the curvature flow remains smooth across a seam.
 
 ### The Squared Distance Function and Industrial Optimization
 
-A large portion of modern industrial geometry focuses on optimization problems involving Squared Distance (SD) functions. Given a surface $\Phi$ and some point $p$, the distance function $d(p, \Phi)$ is non-differentiable at the medial axis of the surface. However, the squared distance function $f(p) = d^2(p, \Phi)$ is smooth.
+A large portion of modern industrial geometry focuses on optimization problems involving Squared Distance (SD) functions. Given a surface $\\Phi$ and some point $p$, the distance function $d(p, \\Phi)$ is non-differentiable at the medial axis of the surface. However, the squared distance function $f(p) = d^2(p, \\Phi)$ is smooth.
 
 A significant breakthrough was discovered when mathematicians developed "Local Quadratic Approximants" when studying the hessian matrix of SD functions. These functions allow CAD algorithms to perform tasks such as surface registration with remarkable speed. For context, surface registration aligns 3D models or surfaces into a common coordinate system by finding the optimal transformation, such as translation or rotations, between a fixed and moving model. The local geometry of the surface, defined by its principal curvatures and its normal vectors, provides a second-order Taylor expansion that helps the optimization algorithm toward a global minimum. It is essential that this minimum is reached  because CAD simulations can be computationally expensive and highly non-linear, reaching the global optimum often requires specialized algorithms that explore the entire design space.
 
@@ -34,7 +34,7 @@ Recent research in industrial geometry has introduced the concept of what is kno
 Using this new manifold, the "distance" between two points increases considerably if there is a sudden change in the normal vector (like in cases of an edge or a crease) between them. This allows image editing software to execute anisotropic smoothing (some refer to this as diffusion as well), in which the software reduces noise by smoothing within regions of similar intensity while preventing diffusion across strong edges, maintaining an image’s clarity with aggressive edge smoothing. Below is an example of such smoothing. The image on the left has been left unchanged where the image on the right has had the filtering effect applied. As you you can see, while although the image on the right has experienced some diffusion (notice the color smudging from dark red to gray), it's clarity has have remained intact. (To create this effect, I used the "imdiffusefilt" function in MATLAB.)
 
 <div align="center">
-<img width="1394" height="492" alt="ansidiff.png" src="Comparison of an image with and without anisotropic smoothing." />
+<img width="1394" height="492" src="ansidiff.png" alt="Comparison of an image with and without anisotropic smoothing." />
 </div>
 
 ## Part 2: For those suffering in Engineering: The Functional Mechanics of Design
@@ -49,15 +49,15 @@ The problem with this is that this line is quite complicated as it is not a simp
 
 ### Offsetting and the Challenge of "Self-Intersection"
 One of the most common engineering tasks is creating an offset surface, for example, when you define the wall thickness of a plastic injection-molded part. Mathematically, an offset surface is defined as:
-$$O(u, v) = S(u, v) + d \cdot n(u, v)$$ 
+$$O(u, v) = S(u, v) + d \\cdot n(u, v)$$
 where $d$ is the distance and $n$ is the unit normal vector.
 
-Differential geometry predicts where this process will fail. If the offset is some distance $d$ that exceeds the local radius of curvature ($1/\kappa$), then the offset surface will undergo "self-intersection" or develop a singularity (a cusp). Advanced CAD kernels use differential analysis to detect sharp points and trim the surface automatically, preventing the creation of geometry that would be impossible to machine or print.
+Differential geometry predicts where this process will fail. If the offset is some distance $d$ that exceeds the local radius of curvature ($1/\\kappa$), then the offset surface will undergo "self-intersection" or develop a singularity (a cusp). Advanced CAD kernels use differential analysis to detect sharp points and trim the surface automatically, preventing the creation of geometry that would be impossible to machine or print.
 
 ### Special Surfaces for Unique Forms of Manufacturing
 Engineering often requires geometry with very specific differential properties:
 
-Developable Surfaces (in which $\kappa=0$): These are surfaces that can be unrolled onto a plane without distortion. They are critical in shipbuilding, aerospace, and apparel. Software uses the property of zero Gaussian curvature at every point to allow engineers to design components that can be manufactured from flat sheets of steel or composite material.
+Developable Surfaces (in which $\\kappa=0$): These are surfaces that can be unrolled onto a plane without distortion. They are critical in shipbuilding, aerospace, and apparel. Software uses the property of zero Gaussian curvature at every point to allow engineers to design components that can be manufactured from flat sheets of steel or composite material.
 
 Canal and Pipe Surfaces: In engine or HVAC design, these types of surfaces guarantee constant air flow about its cross-section. The differential properties of the common "spine curve" tool we use in CAD software actually determines not only smoothness, but feasibility of ducting or engine bores.
 
